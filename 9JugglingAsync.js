@@ -11,13 +11,18 @@ var dataReturn = [];
 synchAPICalls(URLS);
 
 function synchAPICalls(urls) {
+    //pop off the first element from our url array
     var url = urls.shift();
+    //execute a get request for the url and set encoding so we don't need to convert to a string
     http.get(url, function(res) {
         res.setEncoding('utf8');
+        //initialize empty string to hold response data
         var chunks = '';
+        //add to data storage as streams come in. 
         res.on('data', function(d) {
             chunks += d;
         });
+        //push data storage to array
         res.on('end', function() {
             dataReturn.push(chunks);
             //if we have anything left in the array call recursively else return dataReturn
